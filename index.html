@@ -7,10 +7,13 @@
 body{margin:0;background:#050505;color:white;font-family:Arial Black,Arial;text-align:center}
 
 #game{
-width:100vw;height:100vh;max-width:520px;margin:auto;
-background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.65)),url("start-screen.png");
-background-size:contain;background-position:center;background-repeat:no-repeat;background-color:#050505;
-position:relative;overflow:hidden;
+width:100vw;
+height:100vh;
+max-width:520px;
+margin:auto;
+background:#050505;
+position:relative;
+overflow:hidden;
 }
 
 .screen{display:none;padding:25px}
@@ -28,10 +31,14 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 
-background:rgba(0,0,0,0.25);
+background:
+linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.65)),
+url("start-screen.png");
 
-/* Reduce blur */
-backdrop-filter: blur(1px);
+background-size:contain;
+background-position:center;
+background-repeat:no-repeat;
+background-color:#050505;
 
 z-index:10;
 }
