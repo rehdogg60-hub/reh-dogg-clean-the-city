@@ -9,12 +9,11 @@ margin:0;
 background:
 linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)),
 url("start-screen.png");
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-color:white;
-font-family:Arial Black,Arial;
-text-align:center;
+#startScreen{
+background:rgba(0,0,0,0.25);
+backdrop-filter:blur(2px);
+border-radius:12px;
+box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 #game{width:100vw;height:100vh;max-width:520px;margin:auto;background:linear-gradient(#101020,#210017,#050505);position:relative;overflow:hidden}
 button{font-size:22px;padding:14px 24px;margin:10px;border:0;border-radius:12px;background:#8a0303;color:white}
