@@ -47,13 +47,30 @@ let score=0;
 let time=60;
 let timer;
 let spawner;
+let audioCtx;
 
+function beep(freq=500, duration=0.08){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.frequency.value = freq;
+  osc.type = "square";
+  gain.gain.value = 0.05;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
 const icons=[
 ["🗑️",10],
 ["🎭",15],
 ["💸",20],
 ["🚨",25],
-["🫧",30]
+["🫧",30],
+["👤",-25],
+["🚶",-20]
 ];
 
 function show(id){
@@ -97,7 +114,18 @@ target.style.left=Math.max(0,Math.random()*maxX)+"px";
 target.style.top=Math.max(0,Math.random()*maxY)+"px";
 
 target.onclick=()=>{
+if(item[1] < 0){
+  beep(160,0.15);
+} else {
+  beep(620,0.08);
+}
+
 score+=item[1];
+
+if(score < 0){
+  score = 0;
+}
+
 document.getElementById("score").innerText=score;
 target.remove();
 };
