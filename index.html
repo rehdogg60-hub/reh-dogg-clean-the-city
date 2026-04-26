@@ -4,215 +4,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reh Dogg: Clean the City</title>
 <style>
-
-body{
-margin:0;
-background:#050505;
-font-family:Arial, sans-serif;
-}
-
-/* GAME CONTAINER */
+body{margin:0;background:#050505;color:white;font-family:Arial Black,Arial;text-align:center}
 
 #game{
-width:100vw;
-height:100vh;
-max-width:520px;
-margin:auto;
-
-background:
-linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.65)),
-url("start-screen.png");
-
-background-size:contain;
-background-position:center;
-background-repeat:no-repeat;
-background-color:#050505;
-
-position:relative;
-overflow:hidden;
+width:100vw;height:100vh;max-width:520px;margin:auto;
+background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.65)),url("start-screen.png");
+background-size:contain;background-position:center;background-repeat:no-repeat;background-color:#050505;
+position:relative;overflow:hidden;
 }
 
-/* START SCREEN */
+.screen{display:none;padding:25px}
+.active{display:block}
 
 #start{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.25);
-backdrop-filter:blur(2px);
+position:absolute;top:0;left:0;width:100%;height:100%;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+background:rgba(0,0,0,.25);backdrop-filter:blur(2px);
 }
 
-/* BUTTONS */
+button{font-size:22px;padding:14px 24px;margin:10px;border:0;border-radius:12px;background:#8a0303;color:white;box-shadow:0 0 12px red}
 
-button{
-font-size:22px;
-padding:14px 24px;
-margin:10px;
-border:0;
-border-radius:12px;
-background:#8a0303;
-color:white;
-cursor:pointer;
-}
+#playArea{position:relative;height:75vh;border-top:2px solid red;border-bottom:2px solid red;overflow:hidden;background:#050505}
+.target{position:absolute;width:70px;height:70px;border-radius:50%;background:black;border:3px solid red;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 0 20px red;z-index:99}
+#hud{display:flex;justify-content:space-around;font-size:20px;padding:10px;background:#111}
 
-/* SCREENS */
+h1{color:#ff1c1c;font-size:42px;text-shadow:0 0 10px red,0 0 20px red,0 0 30px red}
 
-.screen{
-display:none;
-padding:25px;
-}
-
-.active{
-display:block;
-}
-
-/* PLAY AREA */
-
-#playArea{
-position:relative;
-height:75vh;
-border-top:2px solid red;
-border-bottom:2px solid red;
-overflow:hidden;
-}
-
-/* TARGETS */
-
-.target{
-position:absolute;
-width:70px;
-height:70px;
-border-radius:50%;
-background:black;
-border:3px solid red;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:38px;
-box-shadow:0 0 20px red;
-z-index:99;
-}
-
-/* HUD */
-
-#hud{
-display:flex;
-justify-content:space-around;
-font-size:20px;
-padding:10px;
-background:#111;
-}
-
-/* TITLE */
-
-h1{
-color:#ff1c1c;
-font-size:42px;
-text-shadow:
-0 0 10px red,
-0 0 20px red,
-0 0 30px red;
-}
-
+.blink{animation:blink 1s infinite;font-size:18px;margin-top:15px}
+@keyframes blink{0%{opacity:1}50%{opacity:0}100%{opacity:1}}
 </style>
+</head>
 
-#startScreen h1,
-#startScreen h2,
-#startScreen p,
-#startScreen button{
-position:relative;
-z-index:1000; <div id="startScreen" class="screen active">
-}
-
-#game{
-width:100vw;
-height:100vh;
-max-width:520px;
-margin:auto;
-background:
-linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.65)),
-url("start-screen.png");
-background-size:contain;
-background-position:center;
-background-repeat:no-repeat;
-background-color:#050505;
-position:relative;
-overflow:hidden;
-}
-
-button{
-font-size:22px;
-padding:14px 24px;
-margin:10px;
-border:0;
-border-radius:12px;
-background:#8a0303;
-color:white;
-}
-
-.screen{
-display:none;
-padding:25px;
-}
-
-.active{
-display:block;
-}
-
-#playArea{
-position:relative;
-height:75vh;
-border-top:2px solid red;
-border-bottom:2px solid red;
-overflow:hidden;
-}
-
-.target{
-position:absolute;
-width:70px;
-height:70px;
-border-radius:50%;
-background:black;
-border:3px solid red;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:38px;
-box-shadow:0 0 20px red;
-z-index:99;
-}
-
-#hud{
-display:flex;
-justify-content:space-around;
-font-size:20px;
-padding:10px;
-background:#111;
-}
-
-h1{
-color:#ff1c1c;
-font-size:42px;
-text-shadow:3px 3px black;
-}
+<body>
+<div id="game">
 
 <div id="start" class="screen active">
 <h1>REH DOGG</h1>
 <h2>Clean the City</h2>
-<p>
-The Loofah Vigilante is on patrol.<br>
-Clean the streets before time runs out.
-</p>
-<button onclick="startGame()">Start Game</button><p class="blink">PRESS START</p>
+<p>The Loofah Vigilante is on patrol.<br>Clean the streets before time runs out.</p>
+<button onclick="startGame()">Start Game</button>
+<p class="blink">PRESS START</p>
 </div>
 
 <div id="playing" class="screen" style="padding:0">
@@ -232,35 +63,22 @@ Clean the streets before time runs out.
 </div>
 
 <script>
-let score=0;
-let time=60;
-let timer;
-let spawner;
-let audioCtx;
+let score=0,time=60,timer,spawner,audioCtx;
 
-function beep(freq=500, duration=0.08){
-  if(!audioCtx){
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.frequency.value = freq;
-  osc.type = "square";
-  gain.gain.value = 0.05;
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
+function beep(freq=500,duration=0.08){
+if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();}
+const osc=audioCtx.createOscillator();
+const gain=audioCtx.createGain();
+osc.frequency.value=freq;
+osc.type="square";
+gain.gain.value=0.05;
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+osc.stop(audioCtx.currentTime+duration);
 }
-const icons=[
-["🗑️",10],
-["🎭",15],
-["💸",20],
-["🚨",25],
-["🫧",30],
-["👤",-25],
-["🚶",-20]
-];
+
+const icons=[["🗑️",10],["🎭",15],["💸",20],["🚨",25],["🫧",30],["👤",-25],["🚶",-20]];
 
 function show(id){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -268,15 +86,13 @@ document.getElementById(id).classList.add("active");
 }
 
 function startGame(){
-score=0;
-time=60;
+beep(420,.08);
+score=0;time=60;
 document.getElementById("score").innerText=score;
 document.getElementById("time").innerText=time;
 document.getElementById("playArea").innerHTML="";
 show("playing");
-
-clearInterval(timer);
-clearInterval(spawner);
+clearInterval(timer);clearInterval(spawner);
 
 timer=setInterval(()=>{
 time--;
@@ -291,48 +107,34 @@ spawnTarget();
 function spawnTarget(){
 const area=document.getElementById("playArea");
 const item=icons[Math.floor(Math.random()*icons.length)];
-
 const target=document.createElement("div");
 target.className="target";
 target.innerText=item[0];
 
 const maxX=area.clientWidth-80;
 const maxY=area.clientHeight-80;
-
 target.style.left=Math.max(0,Math.random()*maxX)+"px";
 target.style.top=Math.max(0,Math.random()*maxY)+"px";
 
 target.onclick=()=>{
-if(item[1] < 0){
-  beep(160,0.15);
-} else {
-  beep(620,0.08);
-}
-
+beep(item[1]<0?160:620,item[1]<0?.15:.08);
 score+=item[1];
-
-if(score < 0){
-  score = 0;
-}
-
+if(score<0){score=0;}
 document.getElementById("score").innerText=score;
 target.remove();
 };
 
 area.appendChild(target);
-
-setTimeout(()=>{
-if(target.parentNode){target.remove();}
-},2500);
+setTimeout(()=>{if(target.parentNode){target.remove();}},2500);
 }
 
 function endGame(){
 clearInterval(timer);
 clearInterval(spawner);
+beep(220,.3);
 document.getElementById("final").innerText=score;
 show("end");
 }
 </script>
-
 </body>
 </html>
