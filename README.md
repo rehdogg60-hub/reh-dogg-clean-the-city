@@ -45,7 +45,7 @@ No external libraries are required.
 
 Play the Game
 
-Once GitHub Pages is enabled, the game can be played at: https://yourusername.github.io/reh-dogg-clean-the-city
+Once GitHub Pages is enabled, the game can be played at:https://rehdogg60-hub.github.io/reh-dogg-clean-the-city/
 About the Character
 
 Reh Dogg is a vigilante hero dedicated to cleaning up crime and restoring order to the city. Alongside his loyal companions Maggie and Chip, he uses courage, quick thinking, and a powerful loofah staff to keep the streets safe.
