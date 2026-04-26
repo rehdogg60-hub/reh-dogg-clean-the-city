@@ -1,62 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reh Dogg: Clean the City</title>
-<link rel="stylesheet" href="style.css">
+<style>
+body{margin:0;background:#050505;color:white;font-family:Arial Black,Arial;text-align:center}
+#game{width:100vw;height:100vh;max-width:520px;margin:auto;background:linear-gradient(#101020,#210017,#050505);position:relative;overflow:hidden}
+button{font-size:22px;padding:14px 24px;margin:10px;border:0;border-radius:12px;background:#8a0303;color:white}
+.screen{display:none;padding:25px}
+.active{display:block}
+#playArea{position:relative;height:75vh;border-top:2px solid red;border-bottom:2px solid red;overflow:hidden}
+.target{position:absolute;width:70px;height:70px;border-radius:50%;background:black;border:3px solid red;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 0 20px red;z-index:99}
+#hud{display:flex;justify-content:space-around;font-size:20px;padding:10px;background:#111}
+h1{color:#ff1c1c;font-size:42px;text-shadow:3px 3px black}
+</style>
 </head>
 <body>
-<main id="app">
-<section id="startScreen" class="screen active">
-<div class="card">
-<div class="logo">REH DOGG</div>
-<h1>Clean the City</h1>
-<p>Tap the trouble. Blast the dirt. Save the streets.</p>
-<div class="hero-row">🧍🏾‍♂️ 🐕‍🦺 🐕</div>
-<button id="startBtn" class="primary">Start Game</button>
-<button id="howBtn" class="secondary">How to Play</button>
-<p class="best">Best Score: <span id="bestScoreStart">0</span></p>
-</div>
-</section>
 
-<section id="howScreen" class="screen">
-<div class="card">
-<h2>How to Play</h2>
-<ul>
-<li>🗑️ Trash = +10</li>
-<li>🎭 Criminal mask = +15</li>
-<li>💸 Dirty money = +20</li>
-<li>🚨 Corruption badge = +25</li>
-<li>🫧 Soap bubble = +30</li>
-<li>🐕‍🦺 Maggie = freezes trouble</li>
-<li>🐕 Chip = clears the screen</li>
-<li>👤 Civilian = -25, avoid tapping</li>
-</ul>
-<button id="backBtn" class="secondary">Back</button>
-</div>
-</section>
+<div id="game">
 
-<section id="gameScreen" class="screen">
-<header class="hud">
+<div id="start" class="screen active">
+<h1>REH DOGG</h1>
+<h2>Clean the City</h2>
+<p>Tap the dirty icons before time runs out.</p>
+<button onclick="startGame()">Start Game</button>
+</div>
+
+<div id="playing" class="screen" style="padding:0">
+<div id="hud">
 <div>Score: <span id="score">0</span></div>
 <div>Time: <span id="time">60</span></div>
-<div>Best: <span id="bestScoreHud">0</span></div>
-</header>
-<div id="city"><div class="rain"></div><div class="skyline"></div><div id="message"></div></div>
-<footer class="game-footer"><span>Loofah Staff Ready</span><button id="muteBtn">🔊</button></footer>
-</section>
-
-<section id="endScreen" class="screen">
-<div class="card">
-<h2>City Cleaned!</h2>
-<p class="final-score">Final Score: <span id="finalScore">0</span></p>
-<p>Best Score: <span id="bestScoreEnd">0</span></p>
-<button id="playAgainBtn" class="primary">Play Again</button>
-<button id="homeBtn" class="secondary">Home</button>
 </div>
-</section>
-</main>
-<script src="game.js"></script>
+<div id="playArea"></div>
+</div>
+
+<div id="end" class="screen">
+<h1>Game Over</h1>
+<h2>Final Score: <span id="final">0</span></h2>
+<button onclick="startGame()">Play Again</button>
+</div>
+
+</div>
+
+<script>
+let score=0;
+let time=60;
+let timer;
+let spawner;
+
+const icons=[
+["🗑️",10],
+["🎭",15],
+["💸",20],
+["🚨",25],
+["🫧",30]
+];
+
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+function startGame(){
+score=0;
+time=60;
+document.getElementById("score").innerText=score;
+document.getElementById("time").innerText=time;
+document.getElementById("playArea").innerHTML="";
+show("playing");
+
+clearInterval(timer);
+clearInterval(spawner);
+
+timer=setInterval(()=>{
+time--;
+document.getElementById("time").innerText=time;
+if(time<=0){endGame();}
+},1000);
+
+spawner=setInterval(spawnTarget,900);
+spawnTarget();
+}
+
+function spawnTarget(){
+const area=document.getElementById("playArea");
+const item=icons[Math.floor(Math.random()*icons.length)];
+
+const target=document.createElement("div");
+target.className="target";
+target.innerText=item[0];
+
+const maxX=area.clientWidth-80;
+const maxY=area.clientHeight-80;
+
+target.style.left=Math.max(0,Math.random()*maxX)+"px";
+target.style.top=Math.max(0,Math.random()*maxY)+"px";
+
+target.onclick=()=>{
+score+=item[1];
+document.getElementById("score").innerText=score;
+target.remove();
+};
+
+area.appendChild(target);
+
+setTimeout(()=>{
+if(target.parentNode){target.remove();}
+},2500);
+}
+
+function endGame(){
+clearInterval(timer);
+clearInterval(spawner);
+document.getElementById("final").innerText=score;
+show("end");
+}
+</script>
+
 </body>
 </html>
